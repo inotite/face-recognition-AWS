@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+
+    <div class="main-w3layouts wrapper">
+
+        <div class="main-agileinfo">
+            <div class="agileits-top">
+                <div style="text-align: center">
+                    <a href="/">
+                        <img src="{% static 'client/assets/images/1.png' %}" style="height: 200px">
+                        {#                    <img src="{% static 'images/FaceSpace_Logo_White.png' %}">#}
+                    </a>
+                    {#                    <img src="{% static 'images/FaceSpace_Logo_White.png' %}">#}
+                </div>
+                <br>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <p>
+                            {{ field.label_tag }}<br>
+                            {{ field }}
+                            {% for error in field.errors %}
+                                <p style="color: yellow">{{ error }}</p>
+                            {% endfor %}
+                        </p>
+                    {% endfor %}
+                    <br>
+                    <P>
+                        <label>Image:</label>
+                        <br>
+                        <input required name="image" type="file" class="form-control">
+                    </P>
+                    <p style="color: yellow">{{ imageErr }}</p>
+                    <br>
+                    <br>
+                    <div class="wthree-text">
+                        <label class="anim">
+                            <input type="checkbox" class="checkbox" required="">
+                            <span>I Agree To The Terms & Conditions</span>
+                        </label>
+                        <div class="clear"></div>
+                    </div>
+                    <input type="submit" value="SIGNUP">
+                </form>
+
+                <p><a href="{% url 'login' %}" id="signup">Login</a> | <a href="/"> Home</a></p>
+            </div>
+        </div>
+        <!-- copyright -->
+    </div>
+
+    <script>
+        var path = window.location.href
+        console.log(path)
+        var url = new URL(path);
+        var c = url.searchParams.get("next");
+        var signup_url = $('#signup').attr('href')
+        if (c != null)
+            signup_url += '?next=' + c
+        console.log(signup_url);
+        $('#signup').attr('href', signup_url)
+    </script>
+
+{% endblock %}

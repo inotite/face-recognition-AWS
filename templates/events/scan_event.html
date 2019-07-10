@@ -1,0 +1,47 @@
+{% extends '../layout.html' %}
+{% load static %}
+{% block main %}
+    <div class="card-body" id="car-body" hidden style="text-align: center">
+
+    <div class="progress mb-2">
+        <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Scanning..</div>
+    </div>
+
+    <h4 style="color: red">Processing started... You can do any other process </h4>
+
+
+	</div>
+<div id="mydiv">
+     <form method="post" >
+            {% csrf_token %}
+           <h5>Click Next to Proceed Scanning</h5><br>
+         <div class="row">
+
+              <div class="col-lg-3">
+                 <button type="submit" onclick="foo()" class="btn btn-outline-success">Next <i class="fa fa-arrow-alt-circle-right"></i></button>
+            </div>
+         </div>
+
+
+    </form>
+</div>
+    <script>
+function  foo(){
+    document.getElementById("mydiv").hidden=true;
+    document.getElementById('car-body').hidden=false
+}
+
+//    for(var i=0;i<=100;i++){
+
+  //      var progressbars=document.getElementsByClassName('progress-bar');
+    //    progressbars[0].setAttribute("style","width:"+i+"%")
+      //  progressbars[0].setAttribute("ria-valuenow",i)
+        //progressbars[0].innerText=i+"%";
+        //progressbars[0].classList.replace('bg-success','bg-danger')
+
+
+    //}
+
+
+    </script>
+{% endblock %}

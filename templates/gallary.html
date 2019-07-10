@@ -1,0 +1,215 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block main %}
+
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    <style>
+        h1 {
+            margin: 77px auto 0px auto;
+            text-align: center;
+        }
+
+        .main-content {
+            padding-top: 0px !important;
+            min-height: 0vh !important;
+        }
+
+        #gallery img {
+            width: auto !important;
+            height: 180px !important;
+
+        }
+
+        a {
+            color: #000 !important;
+        }
+
+    </style>
+
+    {#    <h1>GALLERY For <a href="#">{{ data.name }}</a></h1>#}
+    <br>
+    <br>
+    <br>
+    <br>
+    {% if data_type == 'event' %}
+        <div class="row" style="background-color: white">
+            <div class="col-md-12">
+                <div class="mail-toolbar m-b-lg">
+                    <div class="btn-group" role="group">
+                        {#                    <a href="/athletes" class="btn btn-default"><i class="fa fa-arrow-left"></i></a>#}
+                        <a href="#" class="btn btn-default"><h4>{{ data.name }}</h4></a>
+                    </div>
+                    <div class="btn-group" role="group">
+
+                    </div>
+
+
+                    <div class="btn-group pull-right" role="group">
+
+
+                        <a href="" class="btn btn-default"><i class="fa fa-refresh"></i></a>
+                        <a href="{% url 'delete' data.id %}" class="btn btn-default"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+    {% if data_type == 'athlete' %}
+        <div class="row" style="background-color: white">
+            <div class="col-md-12">
+                <div class="mail-toolbar m-b-lg">
+                    <div class="btn-group" role="group">
+                        {#<a href="/athletes" class="btn btn-default"><i class="fa fa-arrow-left"></i></a>#}
+                        <a href="#" class="btn btn-default"><h4>{{ data.name }}</h4></a>
+                    </div>
+                    <div class="btn-group" role="group">
+                    </div>
+                    <div class="btn-group pull-right" role="group">
+                        <a href="" class="btn btn-default"><i class="fa fa-refresh"></i></a>
+                        <a href="{% url 'delete-athlete' data.id %}" class="btn btn-default"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="buttons" style="background-color: white;
+    /* width: 898px; */
+    margin-left: -15px;
+    margin-right: -15px;"></div>
+    {% endif %}
+    {#/events/{{ data.id }}/get_csv#}
+    {% if data_type == 'event' %}
+        <a href="#" id="dBtn" onclick="textChange(this)" type="button"
+           class="btn btn-outline-success"><i class="fa fa-file-archive-o"></i> Download .csv of {{ data.name }}</a>
+        <a href="/events/{{ data.id }}/Tags" type="button" class="btn btn-outline-warning"><i class="fa fa-tags"></i>
+            Tag Images</a>
+        <br/><br>
+    {% endif %}
+
+    {#    <form method="post" action="/events/get_event_csv" id="myform" style="display: none" hidden>#}
+    {#        {% csrf_token%}#}
+    {#        <input name="event" id="event" hidden style="display: none"/>#}
+    {#        <input name="athlete" id="athlete" hidden style="display: none"/>#}
+    {#        <div hidden id="dBtn" onclick="textChange(this)" type="button" class="btn btn-outline-success"><i class="fa fa-file-archive-o"></i> Download .csv</div>#}
+    {##}
+    {#    </form>#}
+    {#    <br>#}
+
+    <div id="gallery">
+
+        {% if url != '#' %}
+            <a href="{{ url }}" target="_blank" download="download" id="getZip"></a>
+            <script>
+                document.getElementById('getZip').click()
+                //window.location.href=window.location.href
+            </script>
+        {% endif %}
+        {% if data_type == 'event' %}
+            {% for image in image_links %}
+                <a href="{{ image.link }}" data-lightbox="{{ image.dbx_path }}"
+                   data-title="{{ image.dbx_path}}"><img src="{{ image.link }}"
+                                                                                     data-tags="{{ image.dbx_path }} "
+                                                                                     alt="{{ image.dbx_path }}"/></a>
+            {% endfor %}
+{#            {% for image in images %}#}
+{#                <a href="{{ image.s3Url }}" data-lightbox="{{ image.athlete.name }}-{{ image.athlete.id }}"#}
+{#                   data-title="{{ image.athlete.name }}-{{ image.athlete.id }}"><img src="{{ image.s3Url }}"#}
+{#                                                                                     data-tags="{{ image.athlete.id }}-{{ image.athlete.name }} "#}
+{#                                                                                     alt="{{ image.athlete.id }}-{{ image.athlete.name }}"/></a>#}
+{#            {% endfor %}#}
+        {% endif %}
+        {% if data_type == 'athlete' %}
+            {% if imagecount == 0 %}
+            <p style="color: red;">This gallery has no images</p>
+            <h3>Images for this project will appear once they are scanned for at least one Participant</h3>
+            <script>
+                document.getElementById('buttons').hidden = true
+            </script>
+        {% endif %}
+            {% for image in images %}
+                <!-- <a href="{{ image.s3Url|slice:":-4" }}" data-lightbox="{{ image.event.name }}-{{ image.event.id }}" -->
+                <a href="{{ image.s3Url }}" data-lightbox="{{ image.event.name }}-{{ image.event.id }}"
+                   data-title="{{ image.event.name }}-{{ image.event.id }}"><img src="{{ image.s3Url}}"
+                                                                                 data-tags="{{ image.event.id }}-{{ image.event.name }} "
+                                                                                 alt="{{ image.event.id }}-{{ image.event.name }}"/></a>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f"
+            crossorigin="anonymous"></script>
+    <script src="{% static 'js/filter-tags.js' %}"></script>
+    <script>
+        $("button").attr("onclick", "downloadBtn(this.innerText,{{ data.id }})")
+    </script>
+    <script>
+        function downloadBtn(a, e) {
+            $('#event').value(e);
+            $('#athlete').value(a.split("-")[0]);
+            $('#dBtn').hidden = a === "Filtered album";
+        }
+
+        function textChange(btn) {
+            {#btn.innerText='Getting...'#}
+            {#btn.innerHTML='<i class="fa fa-file-archive-o"></i> Getting...'#}
+            document.getElementById('myform').submit();
+        }
+    </script>
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{% url 'get_csv' %}">
+                    {% csrf_token %}
+                    <input name="event_id" value="{{ data.id }}" hidden/>
+                    <label>Prepend Dropbox Path</label>
+                    <input required name="dbx_path" class="form-control" placeholder="eg: /User/Macbook/Dropbox/Folder/.."/>
+                    <button class="btn btn-outline-success">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("dBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+
+
+{% endblock %}

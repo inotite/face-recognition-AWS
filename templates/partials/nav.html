@@ -1,0 +1,28 @@
+<nav class="navbar-sidebar">
+    <ul class="list-unstyled navbar__list">
+        <li class="events">
+            <a href="/events">
+                <i class="fas fa-table"></i>My Projects</a>
+        </li>
+        <li class="participated">
+            <a href="{% url 'participated' %}">
+                <i class="fas fa-table"></i>Participated Projects</a>
+        </li>
+        {% if user.is_superuser == False %}
+            <li class="my">
+                <a href="{% url 'user_gallery' 0 %}">
+                    <i class="fas fa-table"></i>My Images</a>
+            </li>
+        {% endif %}
+        {% if user.is_superuser == True %}
+            <li class="athletes">
+                <a href="/users">
+                    <i class="fas fa-users"></i>All Participants</a>
+            </li>
+            <li class="register">
+                <a href="{% url 'signup' %}">
+                    <i class="fas fa-user"></i>Register a New User</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

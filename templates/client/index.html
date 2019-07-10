@@ -1,0 +1,80 @@
+{% extends 'client/base.html' %}
+{% load static %}
+{% block main %}
+    <style>
+        .button {
+            background-color: transparent !important;
+            color: white;
+            border: 2px solid #ccff00;
+            border-radius: 1px;
+            padding: 15px 29px !important;
+
+        }
+
+        body {
+            background-image: url("{% static 'BG.jpeg' %}") !important;
+        }
+
+        #features {
+            padding-top: 10px;
+            border-bottom: 1px solid #dbdbdb;
+        }
+
+        .button:hover {
+            color: white;
+            padding: 17px 31px !important;
+        }
+    </style>
+    <header id="header">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="intro-text">
+                        <h4 class=" animated">Once in a blue moon, when ingenuity, evolution and tech are
+                            perfectly aligned, an app breaks through the chaos, launching you into a universe of
+                            infinite possibility.
+                            <br><br>
+                            That app is here.</h4>
+
+                    </div>
+                    <img src="{% static 'client/assets/images/1.png' %}" style="height: 350px"><br><br>
+                    <p class="section-paragraph">
+                        <a href="{% url 'client-project-create' %}" class="btn button">LAUNCH PROJECT</a>
+                    </p>
+
+                </div>
+
+            </div>
+            <div class="text-center" style="color: white"><br>
+                <h2 class="section-heading animated">It will rock your world.</h2>
+                {#                <p style="color: white" class="section-paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing#}
+                {#                    elit. Possimus sunt quisquam ea distinctio unde, iste doloribus iure dignissimos rerum eaque ipsum#}
+                {#                    nostrum. Non deserunt reprehenderit eaque libero sunt, nam optio.</p>#}
+            </div><!-- .text-center -->
+
+                    <div id="video-container">
+                        <a id="play-video" href="#" data-toggle="modal" data-target="#video-modal" data-backdrop="true">
+                            <img src="{% static 'client/assets/images/landing-page/video-b.png' %}" alt="">
+                            <span class="play-icon">
+                          <img src="{% static 'client/assets/images/landing-page/play-icon.png' %}" alt="">
+                        </span>
+                        </a>
+                    </div>
+        </div><!-- .container -->
+    </header><!-- #header -->
+    <div class="modal fade video-modal" id="video-modal" role="dialog">
+        <div class="modal-content">
+            <iframe src="https://player.vimeo.com/video/325977997" width="860" height="480" frameborder="0"
+                    webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        </div>
+    </div><!-- #video-modal -->
+
+{#        <section id="features" style="background: transparent !important;">#}
+{#            <div class="container">#}
+{##}
+{##}
+{#            </div><!-- .container -->#}
+{#        </section><!-- #features -->#}
+
+{% endblock %}

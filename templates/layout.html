@@ -1,0 +1,359 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+    {#    <link rel="icon" href="{% static "images/icon/icon.png" %}" type="image/png" sizes="16x16">#}
+
+    <!-- Title Page-->
+    <title>{{ title }}-FACESPACE.AI</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="{% static 'css/font-face.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/font-awesome-5/css/fontawesome-all.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900&subset=latin,latin-ext' rel='stylesheet'
+          type='text/css'>
+    <link rel="stylesheet" href="{% static 'dist/fastselect.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/lightbox.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+
+    <style>
+
+        .fstMultipleMode .fstQueryInput {
+            font-size: 1.4em;
+            height: 30px;
+            float: left;
+            /* width: 1px; */
+            -webkit-logical-width: 1px !important;
+            padding: .28571em 0;
+            margin: 0 0 .35714em 0;
+            width: 2em;
+            color: #999;
+        }
+
+        .fstResultItem {
+            font-size: 16px;
+        }
+
+        .fstMultipleMode {
+
+        }
+
+        .fstMultipleMode .fstQueryInputExpanded {
+            content: "Please chose one";
+            width: 1px !important;
+            float: none;
+            width: 100%;
+            padding: .28571em .35714em;
+            height: 30px;
+        }
+
+        .fstElement {
+            font-size: 1.2em;
+        }
+
+        .fstToggleBtn {
+            min-width: 16.5em;
+        }
+
+        .submitBtn {
+            display: none;
+        }
+
+        .fstMultipleMode {
+            display: block;
+            width: 99%;
+            height: 50px;
+        }
+
+        .fstMultipleMode .fstControls {
+            width: 100%;
+        }
+
+        .fstChoiceItem {
+            font-size: 15px !important;
+        }
+
+    </style>
+
+
+    <style>
+        .errorlist {
+            color: red !important;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .helptext {
+            font-weight: 200;
+            color: #138496;
+        }
+
+        .header-mobile .header-mobile__bar {
+            padding: 15px 0;
+            background-color: black;
+        }
+    </style>
+    <!-- Bootstrap CSS-->
+    <link href="{% static 'vendor/bootstrap-4.1/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{% static 'vendor/animsition/animsition.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css' %}" rel="stylesheet"
+          media="all">
+    <link href="{% static 'vendor/wow/animate.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/slick/slick.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/select2/select2.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}" rel="stylesheet" media="all">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+    <link href="{% static 'css/slider.css' %}" rel="stylesheet" media="all">
+    <!-- Main CSS-->
+    <link href="{% static 'css/theme.css' %}" rel="stylesheet" media="all">
+    <script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
+</head>
+<body>
+
+
+<div class="page-wrapper">
+    <!-- HEADER MOBILE-->
+    <header class="header-mobile d-block d-lg-none">
+        <div class="header-mobile__bar">
+            <div class="container-fluid">
+                <div class="header-mobile-inner">
+                    <a class="logo" href="/">
+                        <img src="{% static 'images/FaceSpace_Logo_White.png' %}" alt="CoolAdmin"/>
+                    </a>
+                    <button class="hamburger hamburger--slider" type="button">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar-mobile">
+            <div class="container-fluid">
+                <ul class="navbar-mobile__list list-unstyled">
+                    <li class="events">
+                        <a href="/events">
+                            <i class="fas fa-table"></i>My Projects</a>
+                    </li>
+                    <li class="participated">
+                        <a href="{% url 'participated' %}">
+                            <i class="fas fa-table"></i>Participated Projects</a>
+                    </li>
+                    {% if user.is_superuser == False %}
+                        <li class="my">
+                            <a href="{% url 'user_gallery' 0 %}">
+                                <i class="fas fa-table"></i>My Images</a>
+                        </li>
+                    {% endif %}
+                    {% if user.is_superuser == True %}
+                        <li class="athletes">
+                            <a href="/users">
+                                <i class="fas fa-users"></i>All Participants</a>
+                        </li>
+                        <li class="register">
+                            <a href="{% url 'signup' %}">
+                                <i class="fas fa-user"></i>Register a New User</a>
+                        </li>
+
+                    {% endif %}
+                    {#                        <li class="register">#}
+                    {#                            <a href="{% url 'signup' %}">#}
+                    {#                                <i class="fas fa-user"></i>Register a New User</a>#}
+                    {#                        </li>#}
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- END HEADER MOBILE-->
+    <!-- MENU SIDEBAR-->
+    <aside class="menu-sidebar d-none d-lg-block">
+        <div class="logo">
+            <a href="/">
+                <img src="{% static 'images/FaceSpace_Logo_White.png' %}" alt="Logo"/>
+            </a>
+        </div>
+        <div class="menu-sidebar__content js-scrollbar1">
+            {% include 'partials/nav.html' %}
+        </div>
+    </aside>
+    <!-- END MENU SIDEBAR-->
+    <!-- PAGE CONTAINER-->
+    <div class="page-container">
+        <!-- HEADER DESKTOP-->
+        <header style="    height: 75px;" class="header-desktop">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <div class="header-wrap">
+                        <div class="header-wrap">
+                        </div>
+                        <div class="header-button">
+                            <div class="account-wrap pull-right">
+                                <div class="account-item clearfix js-item-menu">
+                                    <div class="image">
+
+                                        {% if request.session.image %}
+                                            <img src="{{ request.session.image }}"
+                                                 alt="{{ user.email }}"/>
+                                        {% endif %}
+                                        {% if not request.session.image %}
+                                            <img src="{% static 'images/user.png' %}"
+                                                 alt="{{ user.email }}"/>
+                                        {% endif %}
+                                    </div>
+                                    <div class="content">
+                                        <a style="color: white !important;" class="js-acc-btn"
+                                           href="#">{{ user.email }}</a>
+                                    </div>
+                                    <div class="account-dropdown js-dropdown">
+                                        <div class="info clearfix">
+                                            <div class="image">
+                                                <a href="#">
+                                                    {% if request.session.image %}
+                                                        <img src="{{ request.session.image }}"
+                                                             alt="{{ user.email }}"/>
+                                                    {% endif %}
+                                                    {% if not request.session.image %}
+                                                        <img src="{% static 'images/user.png' %}"
+                                                             alt="{{ user.email }}"/>
+                                                    {% endif %}
+                                                </a>
+                                            </div>
+                                            <div class="content">
+                                                <h5 class="name">
+                                                    <a href="#">{{ user.email }}</a>
+                                                </h5>
+                                                <span class="email">{{ user.email }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="account-dropdown__body">
+                                            <div class="account-dropdown__item">
+                                                <a href="/password">
+                                                    <i class="zmdi zmdi-settings"></i>Change Password</a>
+                                            </div>
+                                            <div class="account-dropdown__item">
+                                                <a href="{% url 'profile' %}">
+                                                    <i class="zmdi zmdi-folder-person"></i>Update Profile</a>
+                                            </div>
+                                            <div class="account-dropdown__footer">
+                                                <a href="/logout">
+                                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- HEADER DESKTOP-->
+
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    {% block main %}
+
+                    {% endblock %}
+                    <div class="row" hidden>
+                        <div class="col-md-12">
+                            <div class="copyright">
+                                <p>Copyright © 2018 ASI. All rights reserved. Developed by <a target="_blank" href="#">Novatore
+                                    Solutions</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT-->
+        <!-- END PAGE CONTAINER-->
+    </div>
+
+</div>
+<!-- Jquery JS-->
+
+<!-- Bootstrap JS-->
+<script src="{% static 'vendor/bootstrap-4.1/popper.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap-4.1/bootstrap.min.js' %}"></script>
+<!-- Vendor JS       -->
+<script src="{% static 'vendor/slick/slick.min.js' %}">
+</script>
+<script src="{% static 'vendor/wow/wow.min.js' %}"></script>
+<script src="{% static 'vendor/animsition/animsition.min.js' %}"></script>
+<script src="{% static 'vendor/bootstrap-progressbar/bootstrap-progressbar.min.js' %}">
+</script>
+<script src="{% static 'vendor/counter-up/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'vendor/counter-up/jquery.counterup.min.js' %}">
+</script>
+<script src="{% static 'vendor/circle-progress/circle-progress.min.js' %}"></script>
+<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+<script src="{% static 'vendor/chartjs/Chart.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/select2/select2.min.js' %}">
+</script>
+
+
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/lightbox.js' %}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+
+        if (window.location.href.includes('events')) {
+            $('.events').addClass('active');
+        }
+        if (window.location.href.includes('users')) {
+            $('.athletes').addClass('active');
+        }
+        if (window.location.href.includes('participated')) {
+            $('.participated').addClass('active');
+        }
+
+    });
+</script>
+<script>
+    $("input").addClass("form-control");
+    $(".fstControls").addClass("form-control");
+    $(".fstElement").addClass("form-control");
+    $(".fstToggleBtn").addClass("form-control");
+    $(".fstMultipleMode").removeClass("form-control");
+</script>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        $('#example').dataTable(
+            {
+                "columnDefs": [{
+                    "targets": 'nosort',
+                    "orderable": false,
+                    "searchable": false
+                }]
+            }
+        );
+    });
+
+
+</script>
+
+
+<!-- Main JS-->
+
+</body>
+</html>

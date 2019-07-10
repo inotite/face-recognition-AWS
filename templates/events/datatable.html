@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block main %}
+
+
+
+    <style>
+    .multipleSelect{
+    height: 10px !important;
+
+}
+    .fstMultipleMode .fstControls {
+    width: 600px !important;
+}
+    .fstChoiceItem {
+    font-size: 9px !important;
+}
+    </style>
+</head>
+<body>
+{% csrf_token %}
+
+<div class="row">
+<div class="col-sm-12">
+     <div class="table-responsive table--no-card m-b-40">
+
+<table id="albums" class="table table-borderless table-striped table-earning" style="width:100%" data-server-side="true" >
+<thead>
+    <tr><th hidden data-data="id">Image id</th>
+        <th data-data="s3Url" class="nosort">Image</th>
+        <th data-data="athletes">Athletes name</th>
+        <th data-data="event">Event</th>
+
+    </tr>
+</thead>
+</table>
+
+</div>
+</div>
+</div>
+
+<script src="{% static 'dist/fastselect.standalone.js' %}"></script>
+
+<script>
+$(document).ready(function() {
+
+    var id ={{ event.id }}
+       // alert(id)
+       // alert('hello')
+//getForm()
+$('#albums').DataTable({
+        "processing": true,
+        "serverSide": true,
+        ajax: "/events/api/{{ event.id }}/s3Images/?format=datatables",
+        "columns": [
+        { "data": "id" },
+        { "data": "event" },
+        { "data": "athletes", render:getForm},
+        { "data": "s3Url", render: getImg },
+
+
+    ],
+     "initComplete": function(settings, json) {
+
+     $("select").addClass("multipleSelect");
+     $('.multipleSelect').fastselect();
+  }
+    }
+
+    );
+
+
+}
+
+);
+function getImg(data, type, full, meta) {
+
+        return '<div class="image img-responsive img-circle" style="width: 100%;height: 40%"><a href="'+data+'" data-lightbox="{{ event.name }}" data-title="{{ event.name }}"><img src="'+data+'" /></a></div>';
+    //return '<img src="'+data+'" />';
+}
+
+function getForm(data, type, full, meta) {
+    var w= Object.values(full)
+
+    var data1="";
+    var pk="";
+    var csrf=document.getElementsByName('csrfmiddlewaretoken')[0]
+   // console.log("token",csrf.value)
+    var csrfhtml='<input name="csrfmiddlewaretoken" value="'+csrf.value+'"/>'
+    var html='<form method="post" id="'+full.id+'"><p hidden>'+csrfhtml+'</p> <select id="one" multiple name="athlete" required style="width: 500px !important;"; class="form-control-sm ">';
+   //have to generate this closehtml in success because its using item.fields.pk
+
+
+        var settings={
+            async: false,
+            type:"GET",
+            dataType:"json",
+            url:"/events/getathletes/{{ event.id }}",
+            data:{},
+            success: function(result){
+
+                //console.log(result)
+               data1=result;
+              // console.log(data1[0].fields.name)
+
+                 $.each(result, function(index, item) {
+                     var bool=false;
+
+                        var res=data.split(",");
+                        for(var i=0; i<res.length;i++){
+
+    		                        if(item.fields.name==res[i].trim()){
+                                            bool=true;
+    		                            html=html+'<option selected value="'+item.pk+'">"'+item.fields.name+'"</option>'
+                                    }
+
+                            }
+                            if(bool==false) {
+                                html = html + '<option value="' + item.pk + '">"' + item.fields.name + '"</option>'
+                            }
+
+
+        });
+                    html=html+'</select>';
+
+                    html=html+'<input name="ImageId" value= "'+full.id+'"  hidden> <button class="btn btn-outline-primary">Save</button></form>';
+                   // console.log("final_html "+html)
+
+            }
+        };
+
+        $.ajax(settings);
+
+
+            return html;
+
+}
+
+
+</script>
+
+
+
+{% endblock %}

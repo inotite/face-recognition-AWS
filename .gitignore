@@ -1,0 +1,8 @@
+venv
+env
+*.pyc
+s3TempFiles
+*.pem
+media
+db.sqlite3
+.DS_Store

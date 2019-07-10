@@ -1,0 +1,72 @@
+{% load static %}
+{#<style>#}
+{#    @media (min-width: 768px){#}
+{#         .navbar-toggle {#}
+{#                display: block;#}
+{#         }#}
+{#    }#}
+{#    .navbar-bg {#}
+{#        background-color: transparent !important;#}
+{#        border-bottom: 1px solid white;#}
+{#        border-radius: 0%;#}
+{#    }#}
+{#    .navbar-toggler-icon {#}
+{#        color: white;#}
+{#    }#}
+{#</style>#}
+{#<div class="pos-f-t">#}
+{#  <div class="collapse" id="navbarToggleExternalContent">#}
+{#    <div class="bg-light p-4">#}
+{#      <h4 class="text-white">Collapsed content</h4>#}
+{#      <span class="text-white">Toggleable via the navbar brand.</span>#}
+{#    </div>#}
+{#  </div>#}
+{#  <nav class="navbar navbar-bg bg-primary">#}
+{#    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">#}
+{#      <span class="navbar-toggler-icon"></span>#}
+{#    </button>#}
+{#  </nav>#}
+{#</div>#}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#page-menu-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated" href="{% url 'client-index' %}">
+                <img src="{% static 'images/FaceSpace_Logo_White.png' %}" width="200px">
+            </a>
+        </div><!-- .navbar-header -->
+
+        <div class="navbar-collapse collapse" id="page-menu-collapse">
+            <div class="navbar-right">
+
+                <ul class="nav navbar-nav">
+
+                    <li><a href="{% url 'client-project-create' %}">LAUNCH PROJECT</a></li>
+
+                    {% if user.username %}
+                        <li><a href="/events/">CURRENT PROJECTS</a></li>
+                        <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                    {% endif %}
+{#                                  <li><a data-scroll href="#features">Features</a></li>#}
+{#                                  <li><a data-scroll href="#brief">Brief</a></li>#}
+{#                                  <li><a data-scroll href="#states">Numbers</a></li>#}
+{#                                  <li><a data-scroll href="#subscribe">News Letter</a></li>#}
+                    {% if not user.username %}
+
+                        <li><a href="{% url 'login' %}">LOGIN</a></li>
+                        <li><a href="{% url 'signup' %}">SIGNUP</a></li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div><!-- .navbar-collapse -->
+
+    </div><!-- .container -->
+</nav>

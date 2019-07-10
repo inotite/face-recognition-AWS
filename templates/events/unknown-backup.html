@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{%block main%}
+    <script>
+
+    </script>
+    <style>
+    .multipleSelect{
+    height: 10px !important;
+
+}
+    .fstMultipleMode .fstControls {
+    width: 600px !important;
+}
+    .fstChoiceItem {
+    font-size: 9px !important;
+}
+    </style>
+                 <br>
+                        <div class="row">
+                            <div class="col-lg-12">
+                            <a href="/events/{{ event.id }}/event_gallary">Back to gallery</a>
+                                <h2 class="title-1 m-b-25">Tags in {{ event.name }}</h2>
+
+                                <div class="table-responsive table--no-card m-b-40">
+
+                                    <table id="example" class="table table-borderless table-striped table-earning">
+                                        <thead>
+                                            <tr>
+
+                                                <th class="nosort">Image</th>
+                                                <th>Tag</th>
+                                                <th class="nosort">Action</th>
+                                  </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for unknown in Tags %}
+                                             <tr>
+
+                                                <td style="width: 50%">
+                                                    <div class="image img-responsive img-circle" style="width: 100%;height: 40%">
+                                                        <a href="{{ unknown.s3Url }}" data-lightbox="{{ event.name }}" data-title="{{ event.name }}"><img src="{{ unknown.s3Url }}" alt="{{ event.name }}" /></a>
+
+                                                    </div>
+                                                </td>
+
+                                                <td  >
+
+                                                    <form method="post" id="{{ unknown.id }}">
+                                                        {% csrf_token %}
+                                                        <select multiple name="athlete" required style="width: 900px !important;" class="form-control-sm ">
+
+                                                              {% for ath in athletes %}
+                                                                  {% for a in unknown.athlete.all %}
+                                                                      {% if ath.id == a.id %}
+                                                                          <option selected value="{{ ath.id }}">{{ ath.name }}</option>
+                                                                      {% endif %}
+
+                                                                   {% endfor %}
+                                                                    <option value="{{ ath.id }}">{{ ath.name }}</option>
+                                                              {% endfor %}
+                                                        </select>
+                                                        <input name="ImageId" value="{{ unknown.pk }}" hidden>
+                                                        <button class="btn btn-outline-primary">Save</button>
+                                                    </form>
+
+
+                                                </td>
+                                             <td class="pull-right">
+                                                 <a href="/events/{{ event.id}}/remove_unmach/{{ unknown.id }}" class="btn btn-outline-danger ">
+                                                        <i class="fas fa-trash"></i>
+
+                                                 </a>
+                                             </td>
+
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+<script src="{% static 'dist/fastselect.standalone.js' %}"></script>
+
+<script>
+    $("select").addClass("multipleSelect");
+    //$('select').removeAttr('required')
+
+</script>
+ <script>
+
+     $('.multipleSelect').fastselect();
+
+</script>
+{%endblock%}}

@@ -1,0 +1,283 @@
+{% extends 'client/base.html' %}
+{% load static %}
+
+{% block main %}
+    <link rel="stylesheet" href="{% static 'client/assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'client/assets/css/form-elements.css' %}">
+    <style>
+        .navbar-brand {
+            /* width: 123px; */
+            width: 250px !important;
+
+            text-indent: 0px;
+        }
+    </style>
+    <header id="header">
+        <div class="container">
+            <div class="top-content">
+
+                <div class="inner-bg">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-8 col-sm-offset-2 text">
+                                <h1>Please add a project</h1>
+{#                                <img src="https://www.dropbox.com/s/ku9sllom0imu8nl/WhatsApp%20Image%202018-08-05%20at%209.57.27%20PM.jpeg?dl=1">#}
+                                <div class="description">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-sm-offset-3 form-box">
+
+                                <form role="form" id="create-form" action="{% url 'client-project-create' %}"
+                                      method="post" class="registration-form">
+                                    <fieldset>
+                                        <div class="form-top">
+                                            <div class="form-top-left">
+                                                <h3>Step 1 / 3</h3>
+                                                <p>A little about the project:</p>
+                                            </div>
+                                            <div class="form-top-right">
+                                                <i class="fa fa-folder"></i>
+                                            </div>
+                                        </div>
+                                        <div class="form-bottom">
+                                            <div class="form-group">
+                                                <label class="sr-only" for="form-first-name">Project name</label>
+                                                <input type="text" name="projectName" placeholder="Project name..."
+                                                       class="form-first-name form-control" id="form-first-name">
+                                            </div>
+
+                                            <button type="button" class="btn btn-next">Next</button>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset>
+                                        <div class="form-top">
+                                            <div class="form-top-left">
+                                                <h3>Step 2 / 3</h3>
+                                                <p>Set your dropbox account:</p>
+                                            </div>
+                                            <div class="form-top-right">
+                                                <i class="fa fa-dropbox"></i>
+                                            </div>
+                                        </div>
+                                        <div class="form-bottom">
+                                            <div class="form-group">
+                                                <button onclick="dropboxSelect()" href="#"
+                                                        class="btn btn-outline-warning"><i
+                                                        class="fa fa-dropbox"></i> Attach Dropbox Folder
+                                                </button> <span id="tick"></span>
+
+                                            </div>
+                                            <div  class="form-group">
+                                                <label hidden class="sr-only" for="form-password">Folder Selected</label>
+                                                <input type="text" style="display: none !important;" required class="form-control" name="dbx_folder"
+                                                       placeholder="Dropbox path eg: Folder1/Folder2/.."
+                                                       id="dbx_folder"/>
+                                                <div id="dbx_links">
+
+                                                </div>
+                                                <div id="dbx_names">
+
+                                                </div>
+
+                                                <small style="color: red" id="err"></small>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="sr-only" for="form-email">Email</label>
+                                                <input type="text" name="form-email" placeholder="Email..."
+                                                       value="{% if user.email is not None %}{{ user.email }}{% endif %}"
+                                                       class="form-email form-control" id="form-email">
+                                            </div>
+                                            <div class="form-group">
+                                                <p>Face Similarity Threshold : <span id="demo"></span></p>
+                                                <input name="threshold" type="range" min="1" max="100" value="50"
+                                                       class="slider" id="myRange">
+                                            </div>
+                                            <button type="button" class="btn btn-previous">Previous</button>
+                                            <button id="submit-btn"  onclick="checkDbx()" type="button" class="btn btn-next">Create
+                                            </button>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset>
+                                        <div class="form-top">
+                                            <div class="form-top-left">
+                                                <h3>Step 3 / 3</h3>
+                                                <p>Share Project Url:</p>
+                                            </div>
+                                            <div class="form-top-right">
+                                                <i class="fa fa-share"></i>
+                                            </div>
+                                        </div>
+                                        <div class="form-bottom">
+                                            <div class="form-group" style="text-align: center">
+                                                <div id="loader">
+                                                    <img style="width: 100px;height: 100px"
+                                                         src="{% static 'client/assets/svg/loader.svg' %}">
+                                                </div>
+                                                <div id="link" hidden>
+                                                    <label class="sr-only" for="form-facebook">URL</label>
+
+                                                    <input type="text" name="form-facebook" placeholder="Url"
+                                                           class="form-facebook form-control" id="project-link"
+                                                           value=""
+                                                    >
+                                                    <p style="color: green" id="msg"></p>
+                                                    <p style="color: green" id="copyTxt"></p>
+                                                </div>
+
+                                            </div>
+
+                                            {#                                            <button type="button" class="btn btn-previous">Previous</button>#}
+                                            <button disabled onclick="mycopy()" type="button" id="copyBtn" class="btn">
+                                                Copy!
+                                            </button>
+                                        </div>
+                                    </fieldset>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <p hidden id="host">{{ host }}</p>
+        </div><!-- .container -->
+    </header><!-- #header -->
+    <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs"
+            data-app-key="z3uspsn4ldoupbt"></script>
+    <script>
+        var options = {
+
+            // Required. Called when a user selects an item in the Chooser.
+            success: function (resp) {
+
+                //console.log(resp)
+                $('#dbx_folder').val('True')
+                resp.forEach(function (file) {
+                    //console.log(file)
+                    if (file.isDir === false) {
+                        var newStr = file.link.slice(0, file.link.length - 1);
+                        newStr = newStr + '1'
+                        var input='<input name="dbx_link" hidden value="'+newStr+'"/>'
+                        $('#dbx_links').append(input)
+                         var names='<input name="dbx_name" hidden value="'+file.name+'"/>'
+                        $('#dbx_names').append(names)
+                        {#console.log(names)#}
+                    }
+                })
+
+                $('#tick').html('<i  style="color: green;" class="fa fa-check-circle-o green"></i>')
+                $('#err').html('')
+                {#$('#submit-btn').replaceWith('<button id="submit-btn"  onclick="checkDbx()" type="button" class="btn btn-next">Create\n' +#}
+                {#    '                                            </button>')#}
+                //else {
+                // $('#err').html('Please select a folder')
+                //}
+            },
+
+            // Optional. Called when the user closes the dialog without selecting a file
+            // and does not include any parameters.
+            cancel: function () {
+
+            },
+
+            // Optional. "preview" (default) is a preview link to the document for sharing,
+            // "direct" is an expiring link to download the contents of the file. For more
+            // information about link types, see Link types below.
+            linkType: "preview", // or "direct"
+
+            // Optional. A value of false (default) limits selection to a single file, while
+            // true enables multiple file selection.
+            multiselect: true, // or true
+
+            // Optional. This is a list of file extensions. If specified, the user will
+            // only be able to select files with these extensions. You may also specify
+            // file types, such as "video" or "images" in the list. For more information,
+            // see File types below. By default, all extensions are allowed.
+            //extensions: ['images'],
+
+            // Optional. A value of false (default) limits selection to files,
+            // while true allows the user to select both folders and files.
+            // You cannot specify `linkType: "direct"` when using `folderselect: true`.
+            folderselect: false, // or true
+
+            // Optional. A limit on the size of each file that may be selected, in bytes.
+            // If specified, the user will only be able to select files with size
+            // less than or equal to this limit.
+            // For the purposes of this option, folders have size zero.
+            //sizeLimit: 7024, // or any positive number
+        };
+
+        function dropboxSelect() {
+            Dropbox.choose(options);
+        }
+
+        function checkDbx() {
+            const val = $('#dbx_folder').val();
+            const email = $('#form-email').val();
+            if (val.length === 0) {
+                $('#err').html('Please select a dropbox folder')
+            } else if (email.length === 0) {
+                $('#err').html('Please fill email')
+            } else {
+                var form = $('#create-form');
+                $.ajax({
+                    url: form.attr("action"),
+                    data: form.serialize(),
+                    type: form.attr("method"),
+                    dataType: 'json',
+                    success: function (data) {
+                        var host = $('#host').html()
+                        {#console.log(host)#}
+                        var url = host + data.url
+                        $('#project-link').val(url)
+                        $('#loader').hide()
+                        $('#link').show()
+                        $('#msg').html(data.msg)
+                        document.getElementById('copyBtn').disabled = false
+                    }
+                });
+                return false;
+            }
+        }
+    </script>
+    <script>
+        function myFunction() {
+            var copyText = document.getElementById("myInput");
+            copyText.select();
+            document.execCommand("copy");
+
+            var tooltip = document.getElementById("myTooltip");
+            tooltip.innerHTML = "Copied: " + copyText.value;
+        }
+
+        function outFunc() {
+            var tooltip = document.getElementById("myTooltip");
+            tooltip.innerHTML = "Copy to clipboard";
+        }
+    </script>
+    <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+
+        slider.oninput = function () {
+            output.innerHTML = this.value;
+        }
+    </script>
+    <script>
+        function mycopy() {
+            var copyText = document.getElementById("project-link");
+            copyText.select();
+            document.execCommand("copy");
+            $('#copyTxt').html('copied to clipboard!')
+
+        }
+    </script>
+{% endblock %}

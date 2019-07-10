@@ -1,0 +1,46 @@
+{% extends '../layout.html' %}
+{% load static %}
+{% block main %}
+<style>
+#id_name{
+        margin-bottom: 35px !important;
+}
+.multipleSelect{
+    height: 10px !important;
+}
+</style>
+    <p style="color:red">{{ imageErr }}</p>
+ <form method="post" enctype="multipart/form-data" id="myForm">
+          {% csrf_token %}
+          {{ form }}
+            <br>
+        <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+
+            <span id="payment-button-amount">Save</span>
+            <span id="payment-button-sending" style="display:none;">Saving…</span>
+            <i class="fa fa-arrow-alt-circle-right fa-lg"></i>&nbsp;
+        </button>
+</form>
+
+<script src="https://rawgit.com/dbrekalo/attire/master/dist/js/build.min.js"></script>
+
+<script src="{% static 'dist/fastselect.standalone.js' %}"></script>
+
+<script>
+    $("select").addClass("multipleSelect");
+    //$('select').removeAttr('required')
+
+</script>
+ <script>
+
+     $('.multipleSelect').fastselect();
+
+ </script>
+
+<script>
+    var a=document.getElementById('myForm').getElementsByTagName('a')[0]
+    $(a).attr('data-lightbox','0' )
+    $(a).html('View Image')
+    $(a).attr('href',"{{ s3ImageUrl }}")
+</script>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block main %}
+
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="title-1 m-b-25">My Participated Projects</h2>
+
+            <div class="table-responsive table--no-card m-b-40">
+                <table id="example" class="table table-borderless table-striped table-earning">
+                    <thead>
+                    <tr>
+                        <th>Project Name</th>
+                        <th>Status</th>
+                        <th class="nosort">Action</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.name }}</td>
+
+                            <td id="status-{{ event.id }}">
+
+                            </td>
+                            <td class="{{ event.id }}" style="width:25%;">
+
+
+                                <button data-url="{% url 'get-task' event.pk %}" id="{{ event.pk }}"
+                                        onclick="sync_again('{% url 'reprocess' event.pk %}','{{ event.pk }}')"
+                                        class="btn btn-outline-dark sync-btn">
+                                    <i class="fas fa-sync"></i>
+                                </button>
+
+{#                                <a href="/events/{{ event.pk }}/event_gallary" class="btn btn-outline-dark">#}
+{#                                    <i class="fas fa-scanner"></i>#}
+{#                                    Images#}
+{#                                </a>#}
+
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        function mycopy(id) {
+            var copyText = document.getElementById("project-link-" + id);
+            copyText.select();
+            document.execCommand("copy");
+            document.getElementById("msg-" + id).innerText = "copied to clipboard!";
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            let links = $('.sync-btn')
+            $.each(links, function (index, value) {
+                let url = $(value).attr('data-url')
+                let id = $(value).attr('id')
+                console.log(index, url)
+                $.get(url, function (data, status) {
+                    if (status === 'success') {
+                        let id1 = '#status-' + id
+                        if (data.task_status === 0) {
+                            $(id1).html('processing...')
+                            $('#' + id).html('<i class="fas fa-sync fa-spin"></i>')
+                            $('#' + id).attr('disabled', '')
+                        } else {
+                            $(id1).html('<p style="color:green">processed</p>')
+                        }
+                    }
+                });
+            })
+        })
+
+        function sync_again(url,id) {
+            let r = confirm('Are you sure you want to sync this project again')
+            if (r === true) {
+                console.log('scanning', url)
+                $.get(url, function (data, status) {
+                    if (status === 'success') {
+                        console.log(data)
+                        let id1 = '#status-' + id
+                        if (data.success) {
+                            $(id1).html('processing...')
+                            $('#' + id).html('<i class="fas fa-sync fa-spin"></i>')
+                            $('#' + id).attr('disabled', '')
+                        }
+                    }
+                })
+            }
+
+
+        }
+    </script>
+{% endblock %}}

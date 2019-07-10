@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block main %}
+
+    <br><br>
+     <form method="post" >
+            {% csrf_token %}
+           <h5>Are you sure you want to delete {{ object }}?</h5>
+         <p style="color: red"> all the corresponding data will be lost </p><br>
+         <div class="row">
+            <div class="col-lg-3">
+                 <a id="backBtn" class="btn btn-outline-success"> No </a>
+            </div>
+              <div class="col-lg-3">
+                 <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash"></i> Yes</button>
+            </div>
+         </div>
+
+
+    </form>
+<script>
+    $(document).ready(function(){
+
+        if(window.location.href.includes('events')){
+            $('#backBtn').attr('href','/events');
+        }
+         if(window.location.href.includes('users')){
+            $('#backBtn').attr('href','/users');
+        }
+
+});
+    </script>
+{% endblock %}

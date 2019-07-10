@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <script src="{% static 'vendor/jquery-3.2.1.min.js' %}"></script>
+    <link href="{% static 'style.css' %}" rel="stylesheet"/>
+    <style>
+        div>p{
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+ {% block main %}
+
+
+ {% endblock %}
+<div class="w3copyright-agile">
+			<p>© 2018 Rivals Creative. All rights reserved <a href="http://w3layouts.com/" target="_blank"></a></p>
+		</div>
+		<!-- //copyright -->
+		<ul class="w3lsg-bubbles">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+</body>
+</html>

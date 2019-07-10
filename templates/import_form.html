@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block main %}
+
+    <h2>Import Data from CSV File</h2>
+    <br><br>
+ <form method="post" action="/users/import_data" enctype="multipart/form-data" id="myForm">
+          {% csrf_token %}
+            <input name="importFile" type="file" accept=".csv">
+            <br>
+        <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+            <span id="payment-button-amount">Save</span>
+            <span id="payment-button-sending" style="display:none;">Saving…</span>
+            <i class="fa fa-arrow-alt-circle-right fa-lg"></i>&nbsp;
+        </button>
+</form>
+
+{% endblock %}

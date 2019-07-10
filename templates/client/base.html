@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600|Lato:700,900,400|Raleway'
+          rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'client/assets/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'client/libs/bower/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'client/libs/misc/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'client/libs/bower/animate.css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'client/assets/css/landing-page.css' %}">
+    <link rel="stylesheet" href="">
+    <script src="{% static 'client/libs/bower/jquery/dist/jquery.js' %}"></script>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+    <style>
+        h1, h2, h3 {
+            font-family: 'Montserrat' !important;
+        }
+
+        .nav.navbar-nav {
+            font-family: 'Montserrat' !important;
+        }
+    </style>
+    <style>
+        body {
+            font-family: "Source Sans Pro" !important;
+        }
+
+        #header {
+            padding-top: 100px !important;
+            background-image: url('{% static "BG.jpeg" %}');
+            background-color: black;
+        }
+
+        .navbar-collapse {
+            background: black;
+            overflow-y: auto;
+        }
+
+        .navbar-default {
+
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .button {
+            background-color: transparent !important;
+            color: white;
+            border: 2px solid white;
+            border-radius: 10px;
+            padding: 15px 29px !important;
+
+        }
+
+        .navbar.shrink {
+            padding: 0;
+            background-color: black !important;
+            color: white !important;
+        }
+
+        .navbar-default.shrink .navbar-nav > li > a {
+            color: white !important;
+        }
+
+        a {
+            color: white !important;
+        }
+
+        #video-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+    </style>
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 140px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -75px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        #copyright p {
+            margin: 0;
+            color: white;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+    <title>{{ title }}-FACESPACE.AI</title>
+</head>
+<body data-spy="scroll" data-target=".navbar-fixed-top" data-offset="60">
+<div class="wrapper">
+    {% include 'client/navbar.html' %}
+
+</div>
+{% block main %}
+
+{% endblock %}
+
+<section id="copyright">
+    <div class="container text-center">
+        <p>Copyright &copy; 2019 Rivals Creative </p>
+        <p><a href="{% url 'privacy-policy' %}">Privacy Policy</a> | <a href="{% url 'terms-and-conditions' %}">Terms &
+            Conditions</a></p>
+    </div>
+</section><!-- #copyright -->
+<div id="loading-div">
+    <img src="{% static 'client/assets/images/landing-page/puff.svg' %}" width="50" alt="">
+</div>
+
+<script src="{% static 'client/libs/bower/bootstrap-sass/assets/javascripts/bootstrap.js' %}"></script>
+<script src="{% static 'client/libs/misc/owl-carousel/owl.carousel.min.js' %}"></script>
+<script src="{% static 'client/libs/bower/smooth-scroll/dist/js/smooth-scroll.min.js' %}"></script>
+<script src="{% static 'client/libs/bower/waypoints/lib/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'client/libs/bower/counterup/jquery.counterup.min.js' %}"></script>
+<script src="{% static 'client/assets/js/jquery.backstretch.min.js' %}"></script>
+<script src="{% static 'client/assets/js/retina-1.1.0.min.js' %}"></script>
+<script src="{% static 'client/assets/js/scripts.js' %}"></script>
+<script>
+
+    $(function () {
+        $(window).on('load', function () {
+            $(document.body).addClass('loading-done');
+        });
+
+        //= shrink and expand the navbar
+        $(window).bind('scroll', function () {
+            if ($(window).scrollTop() > 50) $('.navbar').addClass('shrink');
+            else $('.navbar').removeClass('shrink');
+        });
+
+        //= autoplay the video when the modal show up
+        autoPlayYouTubeModal();
+
+        //= equal columns height
+        matchHeight('#states .col-inner');
+
+        //= counterUp plugin
+        $('.counterUp').counterUp({delay: 10, time: 1500});
+
+        //= set the max-height property for .navbar-collapse
+        $(window).on('load resize orientationchange', function () {
+            $('.navbar-collapse').css('max-height', $(window).height() - $('.navbar').height());
+        });
+
+        $(document).on('click', '[data-toggle="collapse"]', function (e) {
+            var $trigger = $(e.target);
+            $trigger.is('[data-toggle="collapse"]') || ($trigger = $trigger.parents('[data-toggle="collapse"]'));
+            var $target = $($trigger.attr('data-target'));
+            if ($target.attr('id') === 'page-menu-collapse')
+                $(document.body).toggleClass('navbar-collapse-show', !$trigger.hasClass('collapsed'))
+        });
+
+        //= initialize smooth scroll plugin
+        smoothScroll.init({
+            offset: 60,
+            speed: 1000,
+            updateURL: false
+        });
+
+        // initializing owlCarousel
+        $("#owl-slider").owlCarousel({
+            slideSpeed: 300,
+            paginationSpeed: 400,
+            singleItem: true,
+            autoPlay: true
+        });
+
+        // initialize waypoints for section-headings
+        $('.section-heading').waypoint(function (direction) {
+            if (direction === 'down') $(this.element).addClass('fadeInUp');
+            else $(this.element).removeClass('fadeInUp');
+        }, {offset: '96%'});
+    });
+
+    autoPlayYouTubeModal = function () {
+        $('#play-video').on("click", function () {
+            var theModal = $(this).data("target"),
+                videoSRC = $('#video-modal iframe').attr('src'),
+                videoSRCauto = videoSRC + "?autoplay=1";
+            $(theModal + ' iframe').attr('src', videoSRCauto);
+            $(theModal + ' button.close').on("click", function () {
+                $(theModal + ' iframe').attr('src', videoSRC);
+            });
+            $('.modal').on("click", function () {
+                $(theModal + ' iframe').attr('src', videoSRC);
+            });
+        });
+    };
+
+    matchHeight = function (selector) {
+        var height, max = 0, $selector = $(selector);
+        $selector.each(function (index, item) {
+            height = $(item).height();
+            if (height > max) max = height;
+        });
+        $selector.height(max);
+    };
+</script>
+
+</body>
+</html>
