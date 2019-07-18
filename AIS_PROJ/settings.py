@@ -13,7 +13,7 @@ SECRET_KEY = 'l)!f_(du!#14^yq3wb5p!mep1kcysy-v^c1d=9fvuz(y&nvu26'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['18.214.129.131', '127.0.0.1', '0.0.0.0', 'facespace.ai']
+ALLOWED_HOSTS = ['127.0.0.1', '0.0.0.0']
 
 # Application definition
 
@@ -157,8 +157,7 @@ STATIC_ROOT = PROJECT_PATH + '/static/'
 
 MEDIA_ROOT = PROJECT_PATH + '/media/'
 MEDIA_URL = '/media/'
-# DROPBOX_OAUTH2_TOKEN='rBv6isYi_-AAAAAAAAABqZdoOiraXozqrgH6SKyGeDWO-99RMxjMirkdEHiOSpj6'
-DROPBOX_OAUTH2_TOKEN = 'boCgY96xgscAAAAAAALZDwAlYCt64RgdREEAlvjrAYJaG0hpVO-nSFaskKuD8tp5'
+DROPBOX_OAUTH2_TOKEN = ''
 
 DROPBOX_PATH = '/ai application/'
 
@@ -183,14 +182,14 @@ AWS_POSTGRESS_PORT = '5432'
 #
 # from_email = 'facesapceai@gmail.com'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.mandrillapp.com'
-EMAIL_HOST_USER = 'hello@facespace.ai'
-EMAIL_HOST_PASSWORD = 'FaceSpace.AI007'
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 
-from_email = 'hello@facespace.ai'
+from_email = ''
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
-MANDRILL_API_KEY = "1lYy4ctHFGWrtIa5wszv5w"
-EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
-DEFAULT_FROM_EMAIL = 'hello@facespace.ai'
+MANDRILL_API_KEY = ""
+EMAIL_BACKEND = ""
+DEFAULT_FROM_EMAIL = ''
