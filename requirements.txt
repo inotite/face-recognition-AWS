@@ -16,7 +16,7 @@ configparser==3.5.0
 cryptography==2.3
 decorator==4.3.0
 diff-match-patch==20121119
-Django==1.11.15
+Django==1.11.29
 django-anymail==5.0
 -e git+https://github.com/django-import-export/django-import-export.git@54232db4a511cc5f0b085c6bb192c3619f27e452#egg=django_import_export
 django-rest-framework==0.1.0
